@@ -1,0 +1,31 @@
+<import src="../wxParse/wxParse.wxml"/> 
+<import src="/Template/ArtItem.wxml" />
+<!--视频文章页-->
+<scroll-view class='videodetail-cont' scroll-y="true">
+<view class="news_content_video" id="4" >    
+    <view class="news_content_conVideo">
+      <video controls id="myVideo" src="{{vodUrl}}" enable-danmu  controls autoplay bindtap="bindButtonTap"></video>
+    </view>   
+</view>
+
+ <view class="news_content_left_top">
+    <text class="text_top"> {{Title}}</text>
+  </view>
+    <template   is="ArtUserHead" data="{{...headerList}}"  />
+    <view class='art-time'><text class='peo-time'>{{pubDate}}</text><text class='readNum'>{{int_hist}}阅读</text></view>
+    <view class="content">
+      <view class="wxParse">
+          <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
+      </view>
+    </view>
+
+    <!--评论列表-->
+    <view class="comments_list">
+        <view class='Hot-com'>热门评论</view>
+
+          <block wx:for="{{newsData}}" wx:key="this" wx:for-item="newsItem">
+   <template   is="ArtCommList" data="{{...newsItem}}" />
+ </block>
+    </view>
+</scroll-view>
+ <template   is="commentBottomBar" data="{{int_Comments}}" />

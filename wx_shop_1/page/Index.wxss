@@ -1,0 +1,69 @@
+/* page/Index.wxss */
+@import "../Template/ArtItem.wxss";
+view{
+  font-size:14px;
+  font-weight:bold;
+}
+.page-body{margin-bottom: 20px;}
+/*头部*/
+.viewlogo{padding: 30rpx;}
+.viewlogo .pic {margin-top: 10px;}
+
+.viewlogo .logo{width:48px;height:48px;border-radius:48px;position:absolute;right:15px;top:24px;overflow:hidden;}
+.viewlogo .logo image{width: 100%; height: 100%;}
+.viewlogo  label{font-size: 24px;}
+.viewlogo  text{ position: relative;top:-5px}
+.viewlogo .slogan{margin-top: 10px;color:#C0C0C0} 
+/* 轮播图 */
+.swiper{     
+    margin:0rpx 30rpx;
+    border-radius: 8px;
+    overflow: hidden;
+}
+ 
+.swiper image{
+    display: inline;   
+    border-radius: 48px;
+    overflow: hidden;
+}
+
+ /*店铺信息*/
+.shopinfo{
+  padding:30rpx  ;
+}
+.shopinfo .infoitem i{width:12px;height: 12px;display: inline-block; margin-right: 10px; }
+.shopinfo .infoitem i image{width: 100%;height: 100%;}
+.shopmore {padding: 30rpx;display: flex;border-top: solid 1px #f3f3f3; 
+  justify-content: space-around;
+  }
+.shopinfo label{display: block;line-height: 50px;font-size:40rpx;
+border-bottom: solid 1px #f3f3f3}
+.shopinfo .infoitem{display: block; line-height: 40px;
+border-bottom: solid 1px #f3f3f3}
+.shopinfo .info{border-bottom: 0;line-height: 40px;}
+.shopinfo .info i{color:#C0C0C0 }
+ 
+/*店铺按钮*/
+ .shopmore text { display:inline-block;
+line-height: 32px;font-size: 14px;margin: 0 5px;background:rgba(239,239,244,1);color: #0850AE;border:solid 1px #fff;
+width:100px;text-align: center;border-radius: 8px;
+}
+ /*动态begin*/
+.skill {
+    background-color: white;
+}
+.skill-top {
+    height: 42rpx;
+    line-height: 42rpx;
+    padding: 30rpx;
+    border-bottom: 1px solid #f7f7f7;
+    font-size: 30rpx;
+    background: #efeff4;
+}
+.skillt-l, .skillt-l image {
+    
+    height: 40rpx;
+}
+.skillt-l{font-size: 16px;}
+ 
+  

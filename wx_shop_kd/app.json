@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "page/Index",
+    "Template/ArtItem",
+    "page/Detail",
+    "page/VideoDetail"
+  ],
+  "window": {
+    "navigationBarTitleText": "",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black"
+  }
+}

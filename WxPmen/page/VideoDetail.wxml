@@ -1,0 +1,32 @@
+<import src="../wxParse/wxParse.wxml"/> 
+<import src="/Template/ArtItem.wxml" />
+<!--视频文章页-->
+<scroll-view class='videodetail-cont' scroll-y="true">
+<view class="news_content_video" id="4" >    
+    <view class="news_content_conVideo">
+         <video controls id="myVideo" src="{{vodUrl}}" enable-danmu  controls autoplay bindtap="bindButtonTap"></video>   
+   <!-- <video controls id="myVideo" src="http://vodfile.taiyasaifu.com/UF/vod/201705/327/1970/1590469/pc/%E5%BE%B7%E5%9B%BD%E5%8D%A1%E5%B0%94%E5%BE%B7%E6%84%8F%E5%BF%97%EF%BC%88KD%EF%BC%892021%E6%B6%82%E5%B1%82%E6%B5%8B%E5%8E%9A%E4%BB%AA-%E6%B3%B0%E4%BA%9A%E8%B5%9B%E7%A6%8F_%E6%A0%87%E6%B8%85.mp4" enable-danmu  controls autoplay bindtap="bindButtonTap"></video>      -->
+    </view>   
+</view>
+
+ <view class="news_content_left_top">
+    <text class="text_top"> {{Title}}</text>
+  </view>
+    <template   is="ArtUserHead" data="{{...headerList}}"  />
+    <view class='art-time'><text class='peo-time'>{{pubDate}}</text><text class='readNum'>{{int_hist}}阅读</text></view>
+    <view class="content">
+      <view class="wxParse">
+          <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
+      </view>
+    </view>
+
+    <!--评论列表-->
+    <view class="comments_list">
+        <view class='Hot-com'>热门评论</view>
+
+          <block wx:for="{{newsData}}" wx:key="this" wx:for-item="newsItem">
+   <template   is="ArtCommList" data="{{...newsItem}}" />
+ </block>
+    </view>
+</scroll-view>
+ <template   is="commentBottomBar" data="{{int_Comments}}" />
