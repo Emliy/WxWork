@@ -1,28 +1,5 @@
 
-var Until = {
-  ajax: function (i) {
-    
-    return wx.request({
-      url: 'http://api.taiyasaifu.com/ajax/MemberHandle.ashx?OP=GetAuthType_v2&user_Group_ID=331&&Account_ID=6636',
-      data: i.data,
-      header: {
-        'Content-Type': 'application/json'
-      },
-      success: function (res) {
-        i.success(res.data);
-      }
-    });
-  }
-}
 
-function getShopArtList(Getdata, message, success, fail)
-{
-return Until.ajax({
-   url:Getdata.url,
-   data: Getdata.data,
-   success: function(e){}
- });
-}
 function request(url, params, success, fail) {
   this.requestLoading(url, params, "", success, fail)
 }
@@ -65,11 +42,13 @@ function requestLoading(url, Getdata,message, success, fail) {
 
     },
   })
+
 }
+
 
 //module.exprots=Until;
 module.exports = {
-  getShopArtList: getShopArtList,
+  
   request: request,
   requestLoading: requestLoading,
 
