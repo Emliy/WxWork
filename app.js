@@ -5,11 +5,11 @@ App(
   },
     globalData: {
       AccountInfo: {
-        User_Group_ID:327,
-        Account_ID:1970,
-        Account_shop_ID:1977,
-        Member_ID_admin: 1590469,
-        Domain:'https://api1.tysfweb.com'
+        User_Group_ID:337,
+        Account_ID:6666,
+        Account_shop_ID:7826,
+        Member_ID_admin:2418412,
+        Domain:'https://api.0086org.cn'
       }
     },
     GetCount: function (data) {

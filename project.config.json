@@ -8,9 +8,9 @@
 		"newFeature": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.7.2",
+	"libVersion": "1.6.7",
 	"appid": "wx746df0a816390f1f",
-	"projectname": "wx_shop_kd",
+	"projectname": "wx_shop_1",
 	"condition": {
 		"search": {
 			"current": -1,
