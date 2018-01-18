@@ -56,7 +56,7 @@ Page({
     var that = this
     that.getAccountChannle();
     that.getAccountInfo();
-    map.put(that.data.menuStatic, []);
+   // map.put(that.data.menuStatic, []);
 
     // console.log(this.data.newsData);
   },
@@ -151,6 +151,11 @@ Page({
 
     var that = this;
 
+    wx.createSelectorQuery().select('.skill-top').boundingClientRect(function (rect) {
+      console.log(rect.top + "dskfsfs");
+    }).exec();
+
+
     if (Gettype == 1) //Gettype:判断是滚动加载还是切换加载
     {
       var ChannlePage = 1;
@@ -160,10 +165,20 @@ Page({
       }
 
       var contentlistMap = [];
-      if (map.get(menuStatic) != undefined) {
+      if (map.get(menuStatic) != undefined ) {
+       // console.log("tal"+Totalpage);
         contentlistMap = map.get(menuStatic);
+        if(contentlistMap.length>0)
+        {
+          Totalpage = contentlistMap[0].PageCount;
+        }else
+        {
+          Totalpage = 10;
+        }
+        
       } else {
         this.data.page = 1;
+        Totalpage=10;
         this.getArtListInfo(0, this.data.menuStatic, '正在加载数据...')
       }
       if (contentlistMap.length > 0) {
@@ -171,20 +186,52 @@ Page({
           viewheight: Systemheight,
           viewshow: 'none'
         }
-      }
-      ChannlePage = (contentlistMap.length / that.data.pageSize) == 0 ? 1 : (contentlistMap.length / that.data.pageSize);
-
+      
+     
+      ChannlePage = (contentlistMap.length / that.data.pageSize) < 1 ? 1 : (contentlistMap.length / that.data.pageSize);
+      this.data.page = ChannlePage;
       //  console.log(menuStatic);
       that.setData({
         menuStatic: menuStatic,
         newsData: contentlistMap,
         hasMoreData: true,
         NomoreData: Nodata,
-        page: ChannlePage + 1
+        page: ChannlePage
       });
+      }else
+      {
+        Nodata = {
+          viewheight: Systemheight,
+          viewshow: 'inblock'
+        }
+        that.setData({
+          menuStatic: menuStatic,
+          newsData:[],
+          hasMoreData: true,
+          NomoreData: Nodata,
+          page: ChannlePage
+        });
+      }
+     // console.log(Totalpage + "|" + menuStatic);
       return;
     }
 
+    if (map.get(menuStatic) !=undefined)
+    {
+      ChannlePage = (map.get(menuStatic).length / that.data.pageSize) < 1 ? 1 : (map.get(menuStatic).length / that.data.pageSize);
+      this.data.page = ChannlePage+1 ;
+      if (map.get(menuStatic).length > 0) {
+        Totalpage = map.get(menuStatic)[0].PageCount;
+      } else {
+        Totalpage = 10;
+      }
+     
+    }else
+    {
+      that.data.page=1;
+
+    }
+   // console.log("page:" + that.data.page);
     var Geturl = app.globalData.AccountInfo.Domain + '/ajax/ArticleHandle.ashx?op=GetAccountArticleList';
     var data = {
       user_Group_ID: app.globalData.AccountInfo.User_Group_ID,
@@ -199,6 +246,7 @@ Page({
       viewheight: Systemheight,
       viewshow: 'none'
     }
+   // console.log("totalpage" + Totalpage);
     if (Totalpage < that.data.page) {
       that.setData({
         hasMoreData: false
@@ -210,9 +258,12 @@ Page({
       var contentlistTem = [];
       if (map.get(menuStatic) == undefined) {
         map.put(menuStatic, contentlistTem); //that.data.newsData; 
+      }else
+      {
+        contentlistTem = map.get(menuStatic);
       }
       if (res.errorCode == 404) {
-
+        map.put(menuStatic, []);
         Nodata = {
           viewheight: Systemheight,
           viewshow: 'inblock'
@@ -265,6 +316,7 @@ Page({
               }
               siteList.push(siteArr[c]);
             }
+           
          //   console.log(siteList);
             contentlist[i].PicArr = siteList;
           }
@@ -296,7 +348,7 @@ Page({
             newsData: contentlistTem.concat(contentlist),
             hasMoreData: true,
             NomoreData: Nodata,
-            page: that.data.page + 1
+            page: that.data.page 
           })
         }
       }
