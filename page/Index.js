@@ -156,7 +156,7 @@ Page({
       var ChannlePage = 1;
       var Nodata = {
         viewheight: Systemheight,
-        viewshow: 'inblock'
+        viewshow: 'none'
       }
 
       var contentlistMap = [];
@@ -265,7 +265,7 @@ Page({
               }
               siteList.push(siteArr[c]);
             }
-            console.log(siteList);
+         //   console.log(siteList);
             contentlist[i].PicArr = siteList;
           }
           //视频时间
