@@ -1,6 +1,8 @@
 
 <!--Template/ArtItem.wxml-->
-
+<template name="NomoreData">
+<view style="height:{{viewheight}}rpx;display:{{viewshow}}">没有数据</view>
+</template>
 
 <template name="OnePicItem">
 <!--1图-->
@@ -11,7 +13,7 @@
       </view>
       <view class="news_content_left_but">
          
-          <text style="margin-left:10px;">阅读：{{int_hist}}</text>
+          <text >阅读：{{int_hist}}</text>
           <text style="margin-left:10px;">{{pubDate}}</text>
       </view>
     </view>
@@ -31,7 +33,7 @@
     </view>
     <view class="news_content_conVideo_bottom_but">
         
-          <text style="margin-left:10px;">阅读：{{int_hist}}</text>
+          <text>阅读：{{int_hist}}</text>
           <text style="margin-left:10px;">{{pubDate}}</text>
     </view>
 </view>
@@ -66,7 +68,7 @@
     <view class="news_content_bottom_but">
      
     
-      <text style="margin-left:10px;">阅读：{{int_hist}}</text>
+      <text>阅读：{{int_hist}}</text>
       <text style="margin-left:10px;">{{pubDate}}</text>
     </view>
 </view>
@@ -81,7 +83,7 @@
       </view>
       <view class="news_content_left_but">
           
-          <text style="margin-left:10px;">阅读：{{int_hist}}</text>
+          <text>阅读：{{int_hist}}</text>
             <text style="margin-left:10px;">{{pubDate}}</text>
       </view>
     </view>
@@ -111,7 +113,7 @@
         <image src="{{PicUrl}}"></image>
     </view>
     <view class="news_content_conVideo_bottom_but">
-            <text style="margin-left:10px;">阅读：{{int_hist}}</text>
+            <text>阅读：{{int_hist}}</text>
             <text style="margin-left:10px;">{{pubDate}}</text>
     </view>
 </view>

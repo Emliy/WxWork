@@ -1,13 +1,16 @@
 const app = getApp()
 var newsDataList = require("../Utils/api.js");
 var redirectTo = require("../Utils/redirectTo.js");
-//var Until = require("../Utils/api.js");
 
-// page/Index.js
+var menu_static = 0;
+
 var latitude=0;
 var longitude=0;
 var shopTitle='';
 var shopAdress='';
+var map = app.getMap();
+var Systemheight='';
+var Totalpage=10;
 Page({
 
 
@@ -25,7 +28,11 @@ Page({
     indicatorActiveColor: "#ffffff",
     autoplay: true,
     interval: 5000,
-    duration: 1000
+    duration: 1000,
+    menuStatic: 0,
+    menu: [],
+    NomoreData:[]
+
   
   },
   detail: function (event) {
@@ -38,16 +45,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (option) {
+    wx.getSystemInfo({
+      success: function (res) {
+        Systemheight = res.screenHeight;
+      //  console.log(res.windowHeight)
+
+      }
+    })  
  //   console.log(app.globalData.AccountInfo.User_Group_ID);
  var that = this
+ that.getAccountChannle();
  that.getAccountInfo();
- that.getArtListInfo('正在加载数据...')
+ map.put(that.data.menuStatic, []);
+
    // console.log(this.data.newsData);
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+   // console.log("ready");
+    var that = this;
+    that.getArtListInfo(0, this.data.menuStatic, '正在加载数据...')
   },
 
   /**
@@ -81,10 +100,9 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-   console.log("上啦刷新了")
   
    if (this.data.hasMoreData) {
-     this.getArtListInfo('加载更多数据')
+     this.getArtListInfo(0,this.data.menuStatic,'加载更多数据')
    } else {
     wx.showToast({
        title: '没有更多数据',
@@ -124,9 +142,48 @@ Page({
       }
     })
   },
-  getArtListInfo: function (message) {
-    var that = this,
-      Geturl = app.globalData.AccountInfo.Domain +'/ajax/ArticleHandle.ashx?op=GetAccountArticleList';
+  click_menu: function (event) {
+    this.data.menuStatic = event.currentTarget.id;
+   
+    this.getArtListInfo(1,this.data.menuStatic, '正在加载数据...')
+  } ,
+  getArtListInfo: function (Gettype,menuStatic,message) {
+   
+    var that = this;
+
+    if (Gettype == 1) //Gettype:判断是滚动加载还是切换加载
+    {
+      var ChannlePage = 1;
+      var Nodata = {
+        viewheight: Systemheight,
+        viewshow: 'inblock'
+      }
+
+      var contentlistMap = [];
+      if (map.get(menuStatic) != undefined) {
+        contentlistMap = map.get(menuStatic);
+      }
+      if(contentlistMap.length>0)
+      {
+        Nodata = {
+          viewheight: Systemheight,
+          viewshow: 'none'
+        }
+      }
+      ChannlePage = (contentlistMap.length / that.data.pageSize) == 0 ? 1 : (contentlistMap.length / that.data.pageSize);
+
+      //  console.log(menuStatic);
+      that.setData({
+        menuStatic: menuStatic,
+        newsData: contentlistMap,
+        hasMoreData: true,
+        NomoreData: Nodata,
+        page: ChannlePage+1
+      });
+      return;
+    }
+
+    var  Geturl = app.globalData.AccountInfo.Domain +'/ajax/ArticleHandle.ashx?op=GetAccountArticleList';
     var data = {
       user_Group_ID: app.globalData.AccountInfo.User_Group_ID,
       Account_ID: app.globalData.AccountInfo.Member_ID_admin,
@@ -134,17 +191,43 @@ Page({
       PageSize: that.data.pageSize,
       CurrentIndex:that.data.page,
       type:600,
-      Channel_one:0
+      Channel_one: that.data.menuStatic
+    };
+    var Nodata = {
+      viewheight: Systemheight,
+      viewshow: 'none'
+    }
+    if (Totalpage < that.data.page)
+    {
+      that.setData({
+        hasMoreData: false
+      });
+      return;
     }
     newsDataList.requestLoading(Geturl,data, message, function (res) {
-    //  console.log(data)
-     //console.log(res);
-      var contentlistTem = that.data.newsData
+ 
+      var contentlistTem = map.get(menuStatic); //that.data.newsData; 
+  
+if(res.errorCode==404){
+
+   Nodata = {
+    viewheight: Systemheight,
+    viewshow: 'inblock'
+  }
+  that.setData({
+    newsData: [],
+    NomoreData: Nodata,
+    hasMoreData: false
+  });
+
+}
       if (res.errorCode == 200) {
-        if (that.data.page == 1) {
-          contentlistTem = []
+        Nodata = {
+          viewheight: Systemheight,
+          viewshow: 'none'
         }
         var contentlist = res.data
+        Totalpage = contentlist[0].PageCount ;
         for (var obj = contentlist.length, i=0;i<obj;i++)
         {
           var siteList = [];
@@ -171,9 +254,8 @@ Page({
            
             for (var a = 3, b = '', c = 0; c < a; c++) {
               
-          if (typeof (siteArr[c]) == "undefined" || siteArr[c].length <= 0) {
-                continue;
-              }
+          if (typeof (siteArr[c]) == "undefined" || siteArr[c].length <= 0)
+          { continue;}
           var url = siteArr[c].split('&');
           //alert(url.length)
           if (url.length > 1) {
@@ -197,22 +279,27 @@ Page({
           //阅读数
           contentlist[i].int_hist = app.GetCount(contentlist[i].int_hist);
         }
+        map.put(menuStatic, contentlistTem.concat(contentlist));
 
+       
         if (contentlist[0].PageCount <= that.data.page) {
           that.setData({
+            menuStatic: menuStatic,
             newsData: contentlistTem.concat(contentlist),
-            hasMoreData: false
+            hasMoreData: false,
+            NomoreData: Nodata
           })
         }
         else {
           that.setData({
+            menuStatic: menuStatic,
             newsData: contentlistTem.concat(contentlist),
             hasMoreData: true,
+            NomoreData: Nodata,
             page: that.data.page + 1
           })
         }
       }
-
     }, function (res) {
     })
   },
@@ -228,7 +315,7 @@ Page({
     }
     newsDataList.requestLoading(Geturl, data, '', function (res) {
       //  console.log(data)
-   //   console.log(res);
+    // console.log(res);
      // var contentItem = that.data.newsData
       if (res.errorCode == 200) {
        
@@ -248,16 +335,42 @@ Page({
               shopTitle= res.data[0].site_title
                 shopAdress=res.data[0].shop_address
         //  console.log(siteList);
+           //     res.data[0].shop_address='';
       that.setData({
         shopInfo: res.data,
-        bannerList:siteList
-        
+        bannerList:siteList,
+        locationshow: (res.data[0].shop_address.length>0?'inblock':'none'),
+        Phoneshow: (res.data[0].shop_tel.length > 0 ? 'inblock' : 'none'),
+        Businessshow: (res.data[0].shop_BusinessHours.length > 0 ? 'inblock' : 'none'),
+        Introshow: (res.data[0].shop_Introduction.length > 0 ? 'inblock' : 'none'),
+
       })
     } }
 
     }, function (res) {
     })
 
+
+  },
+  getAccountChannle:function(){
+    var that = this,
+      Geturl = app.globalData.AccountInfo.Domain + '/ajax/MallHandler.ashx?OP=GetAccountChannelList';
+    var data = {
+      user_Group_ID: app.globalData.AccountInfo.User_Group_ID,
+      Account_ID: app.globalData.AccountInfo.Account_shop_ID,
+      Member_ID: app.globalData.AccountInfo.Member_ID_admin
+    }
+    newsDataList.requestLoading(Geturl, data, '', function (res) {
+     
+       //console.log(res);
+      if (res.errorCode == 200) {
+          that.setData({
+            menu: res.data
+          })
+
+      }
+    }, function (res) {
+    })
 
   }
 })

@@ -1,7 +1,7 @@
 
 <import src="/Template/ArtItem.wxml" />
 
-<scroll-view scroll-y = true >
+<scroll-view class="page-body" scroll-y = true >
 
 <!--<loading hidden="{{!loading}}">	{{title}}</loading>-->
 <view class="container">
@@ -36,20 +36,21 @@
 
 <!--店铺信息-->  
 <view class="shopinfo" >
-  <view class="infoitem" bindtap="getlocation">
-    <i> <image src="../images/ic1.png" mode="aspectFill"></image></i>{{shopInfo[0].site_title}}
+  <view class="infoitem" style="display:{{locationshow}};" bindtap="getlocation">
+    <i> <image src="../images/ic1.png" mode="aspectFill"></image></i>
+    <text>{{shopInfo[0].shop_address}}</text>
     <i class="fr"> <image src="../images/ic4.png" mode="aspectFill"></image></i>
   </view>
 
- <view class="infoitem" bindtap="getCallPhone">
+ <view class="infoitem" style="display:{{Phoneshow}};"  bindtap="getCallPhone">
   <i> <image src="../images/ic2.png" mode="aspectFill"></image></i>{{shopInfo[0].shop_tel}}
   <i class="fr"> <image src="../images/ic4.png" mode="aspectFill"></image></i>
  </view>
- <view class="infoitem">
+ <view class="infoitem" style="display:{{Businessshow}};">
   <i> <image src="../images/ic3.png" mode="aspectFill"></image></i>营业时间： {{shopInfo[0].shop_BusinessHours}}
   
  </view>
-<view class=" info"  >
+<view class=" info"  style="display:{{Introshow}};" >
  <i>主营业务：</i>{{shopInfo[0].shop_Introduction}}
  </view>
 </view>
@@ -58,7 +59,7 @@
 <view class="shopmore">
  <text hidden="">TA的商城</text> 
  <text>TA的服务</text>
- <text>优惠券</text> 
+ <text>TA的优惠</text> 
 </view>
 <!--店铺按钮end-->
 
@@ -68,7 +69,13 @@
 <!--店铺模块 begin-->
 	<view class="skill mt30" id="skill_sec">
 		<view class="skill-top clearfix">
-			<view class="skillt-l fl">店铺动态</view>	 
+			<view class="skillt-l fl" id="0" bindtap="click_menu">TA的动态</view>	
+         <scroll-view class="skillt-r fr" scroll-x="true"  >
+        <view id="{{item.ID}}" bindtap="click_menu" wx:for="{{menu}}" wx:key="item.ID" wx:for-item="item" class="nav_font">
+            <block wx:if="{{item.ID == menuStatic}}"><text class="nav_hover">{{item.Channel_Name}}</text></block>
+            <block wx:else>{{item.Channel_Name}}</block>
+        </view> 
+    </scroll-view> 
 		</view>	 
 	</view> 
  </view>
@@ -90,5 +97,5 @@
       <template wx:if="{{newsItem.pic_count === 3}}"  is="ThreePicItem" data="{{...newsItem}}" />
       
    </block>
-
+ <template   is="NomoreData" data="{{...NomoreData}}" />
 </scroll-view>

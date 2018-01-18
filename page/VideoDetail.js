@@ -86,8 +86,7 @@ Page({
       if (res.errorCode == 200) {
         var urlvideo = res.data[0].vodUrl.split('|');
         var GetUrl = res.data[0].vodUrl;
-        if (res.data[0].int_type===10)
-        {
+        if (res.data[0].int_type === 10) {
           var GetUrl = urlvideo[1];
         }
         that.setData({
@@ -96,11 +95,12 @@ Page({
           int_Comments: (res.data[0].int_Comments == 0 ? '' : res.data[0].int_Comments),
           Description: WxParse.wxParse('article', 'html', res.data[0].Description, that, 5),
           vodUrl: encodeURI(GetUrl),//res.data[0].vodUrl,//encodeURI
-           otherParameter :res.data[0].otherParameter,
+          otherParameter: res.data[0].otherParameter,
 
           pubDate: res.data[0].pubDate,
           headerList: headdata
         })
+
 
       }
 

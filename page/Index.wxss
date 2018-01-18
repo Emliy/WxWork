@@ -1,30 +1,40 @@
 /* page/Index.wxss */
 @import "../Template/ArtItem.wxss";
+
 view{
   font-size:14px;
   font-weight:bold;
 }
-.page-body{margin-bottom: 20px;}
+.fl{float: left;}
+.fr{float: right;}
+.page-body{margin-bottom:20px;
+margin-top:4.8rem;}
 /*头部*/
-.viewlogo{padding: 30rpx;}
+.viewlogo{padding: 20px 20px  10px 20px;position: fixed;top:0;left:0;right:0;background: #fff;z-index: 999;}
 .viewlogo .pic {margin-top: 10px;}
-
-.viewlogo .logo{width:48px;height:48px;border-radius:48px;position:absolute;right:15px;top:24px;overflow:hidden;}
-.viewlogo .logo image{width: 100%; height: 100%;}
-.viewlogo  label{font-size: 24px;}
-.viewlogo  text{ position: relative;top:-5px}
 .viewlogo .slogan{margin-top: 10px;color:#C0C0C0} 
+.viewlogo .logo{width:60px;height:60px;border-radius:60px;position:absolute;right:30rpx;top:20px;overflow:hidden;
+}
+.viewlogo .logo image{width: 100%; height: 100%;}
+.viewlogo  label{font-size:1.05rem;margin-right:3.1rem;display:block;
+}
+.viewlogo  text{ position: relative;top:-5px}
 /* 轮播图 */
+ swiper {
+display:block;
+height: 12rem;
+
+}
 .swiper{     
     margin:0rpx 30rpx;
     border-radius: 8px;
     overflow: hidden;
 }
- 
+
 .swiper image{
     display: inline;   
     border-radius: 48px;
-    overflow: hidden;
+   
 }
 
  /*店铺信息*/
@@ -36,10 +46,16 @@ view{
 .shopmore {padding: 30rpx;display: flex;border-top: solid 1px #f3f3f3; 
   justify-content: space-around;
   }
+
 .shopinfo label{display: block;line-height: 50px;font-size:40rpx;
 border-bottom: solid 1px #f3f3f3}
 .shopinfo .infoitem{display: block; line-height: 40px;
 border-bottom: solid 1px #f3f3f3}
+   .shopinfo .infoitem text{  
+    white-space: nowrap;width: 500rpx;display: inline-block;height: 16px;line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
 .shopinfo .info{border-bottom: 0;line-height: 40px;}
 .shopinfo .info i{color:#C0C0C0 }
  
@@ -61,9 +77,19 @@ width:100px;text-align: center;border-radius: 8px;
     background: #efeff4;
 }
 .skillt-l, .skillt-l image {
-    
     height: 40rpx;
 }
 .skillt-l{font-size: 16px;}
+.skillt-r{font-size: 14px;font-weight: normal;
+white-space:nowrap;
+display:flex;
+width:75%;
+text-align: right;
+overflow: hidden;
+ 
+}
+.skillt-r .nav_font{display: inline-block;font-weight: normal;margin: 0 20rpx;} 
+.skillt-r .nav_hover{ font-size:16px;color:#3080c0;
+}
  
   
