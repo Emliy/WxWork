@@ -1,7 +1,7 @@
 
 <import src="/Template/ArtItem.wxml" />
 
-<scroll-view class="page-body" scroll-y = true >
+<view class="page-body">
 
 <!--<loading hidden="{{!loading}}">	{{title}}</loading>-->
 <view class="container">
@@ -98,4 +98,4 @@
       
    </block>
  <template   is="NomoreData" data="{{...NomoreData}}" />
-</scroll-view>
+</view>

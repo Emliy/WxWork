@@ -48,25 +48,20 @@ Page({
     wx.getSystemInfo({
       success: function (res) {
         Systemheight = res.screenHeight;
-        //  console.log(res.windowHeight)
-
       }
     })
     //   console.log(app.globalData.AccountInfo.User_Group_ID);
-    var that = this
-    that.getAccountChannle();
-    that.getAccountInfo();
-   // map.put(that.data.menuStatic, []);
 
-    // console.log(this.data.newsData);
-  },
+   
+   
+ },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    // console.log("ready");
     var that = this;
-    that.getArtListInfo(0, this.data.menuStatic, '正在加载数据...')
+    that.getAccountInfo();
+    
   },
 
   /**
@@ -91,16 +86,15 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    console.log("下啦刷新了");
-    this.data.page = 1;
-    console.log("page111:" + this.data.page)
+    wx.showToast({
+      title: '下啦刷新',
+    })
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-
     if (this.data.hasMoreData) {
       this.getArtListInfo(0, this.data.menuStatic, '加载更多数据')
     } else {
@@ -126,12 +120,8 @@ Page({
     wx.getLocation({
       type: 'gcj02',
       success: function (res) {
-        // var latitude = 39.832663
-        // var longitude = 116.294537
         var speed = res.speed
         var accuracy = res.accuracy
-        // console.log("latitude:" + latitude)
-        //console.log("longitude:" + longitude)
         wx.openLocation({
           latitude: Number(latitude),
           longitude: Number(longitude),
@@ -144,18 +134,14 @@ Page({
   },
   click_menu: function (event) {
     this.data.menuStatic = event.currentTarget.id;
-
     this.getArtListInfo(1, this.data.menuStatic, '正在加载数据...')
   },
   getArtListInfo: function (Gettype, menuStatic, message) {
-
     var that = this;
 
-    wx.createSelectorQuery().select('.skill-top').boundingClientRect(function (rect) {
-      console.log(rect.top + "dskfsfs");
-    }).exec();
-
-
+    // wx.createSelectorQuery().select('.skill-top').boundingClientRect(function (rect) {
+    //   console.log(rect.top + "dskfsfs");
+    // }).exec();
     if (Gettype == 1) //Gettype:判断是滚动加载还是切换加载
     {
       var ChannlePage = 1;
@@ -163,10 +149,8 @@ Page({
         viewheight: Systemheight,
         viewshow: 'none'
       }
-
-      var contentlistMap = [];
+       var contentlistMap = [];
       if (map.get(menuStatic) != undefined ) {
-       // console.log("tal"+Totalpage);
         contentlistMap = map.get(menuStatic);
         if(contentlistMap.length>0)
         {
@@ -174,7 +158,6 @@ Page({
         }
         else
         {
-         // Totalpage = 10;
           this.data.page = 1;
           Totalpage = 10;
           this.getArtListInfo(0, this.data.menuStatic, '正在加载数据...')
@@ -190,8 +173,6 @@ Page({
           viewheight: Systemheight,
           viewshow: 'none'
         }
-      
-     
       ChannlePage = (contentlistMap.length / that.data.pageSize) < 1 ? 1 : (contentlistMap.length / that.data.pageSize);
       this.data.page = ChannlePage;
       //  console.log(menuStatic);
@@ -216,24 +197,20 @@ Page({
           page: ChannlePage
         });
       }
-     // console.log(Totalpage + "|" + menuStatic);
       return;
     }
-
     if (map.get(menuStatic) !=undefined)
     {
-      ChannlePage = (map.get(menuStatic).length / that.data.pageSize) < 1 ? 1 : (map.get(menuStatic).length / that.data.pageSize);
+ ChannlePage = (map.get(menuStatic).length / that.data.pageSize) < 1 ? 1 : (map.get(menuStatic).length / that.data.pageSize);
       this.data.page = ChannlePage+1 ;
       if (map.get(menuStatic).length > 0) {
         Totalpage = map.get(menuStatic)[0].PageCount;
       } else {
         Totalpage = 10;
       }
-     
     }else
     {
       that.data.page=1;
-
     }
    // console.log("page:" + that.data.page);
     var Geturl = app.globalData.AccountInfo.Domain + '/ajax/ArticleHandle.ashx?op=GetAccountArticleList';
@@ -257,8 +234,8 @@ Page({
       });
       return;
     }
+    //请求数据
     newsDataList.requestLoading(Geturl, data, message, function (res) {
-
       var contentlistTem = [];
       if (map.get(menuStatic) == undefined) {
         map.put(menuStatic, contentlistTem); //that.data.newsData; 
@@ -277,7 +254,6 @@ Page({
           NomoreData: Nodata,
           hasMoreData: false
         });
-
       }
       if (res.errorCode == 200) {
         Nodata = {
@@ -320,8 +296,6 @@ Page({
               }
               siteList.push(siteArr[c]);
             }
-           
-         //   console.log(siteList);
             contentlist[i].PicArr = siteList;
           }
           //视频时间
@@ -371,10 +345,10 @@ Page({
     }
     newsDataList.requestLoading(Geturl, data, '', function (res) {
       //  console.log(data)
-      // console.log(res);
+       console.log(res);
       // var contentItem = that.data.newsData
       if (res.errorCode == 200) {
-
+        app.globalData.AccountInfo.Member_ID_admin = res.data[0].Member_ID_admin;
         // var contentItem = shopInfo;
         if (that.data.shopInfo.length < 1) {
           var siteArr = res.data[0].site_Logo_arr.split('|');
@@ -399,7 +373,9 @@ Page({
             Businessshow: (res.data[0].shop_BusinessHours.length > 0 ? 'inblock' : 'none'),
             Introshow: (res.data[0].shop_Introduction.length > 0 ? 'inblock' : 'none'),
 
-          })
+          });
+          that.getArtListInfo(0, that.data.menuStatic, '正在加载数据...');
+          that.getAccountChannle();
         }
       }
 
