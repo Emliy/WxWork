@@ -171,9 +171,13 @@ Page({
         if(contentlistMap.length>0)
         {
           Totalpage = contentlistMap[0].PageCount;
-        }else
+        }
+        else
         {
+         // Totalpage = 10;
+          this.data.page = 1;
           Totalpage = 10;
+          this.getArtListInfo(0, this.data.menuStatic, '正在加载数据...')
         }
         
       } else {
