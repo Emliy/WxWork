@@ -12,11 +12,11 @@ margin-top:4.8rem;}
 /*头部*/
 .viewlogo{padding: 20px 20px  10px 20px;position: fixed;top:0;left:0;right:0;background: #fff;z-index: 999;}
 .viewlogo .pic {margin-top: 10px;}
-.viewlogo .slogan{margin-top: 10px;color:#C0C0C0} 
+.viewlogo .slogan{margin-top: 10px;color:#C0C0C0;margin-right:3.1rem;} 
 .viewlogo .logo{width:60px;height:60px;border-radius:60px;position:absolute;right:30rpx;top:20px;overflow:hidden;
 }
 .viewlogo .logo image{width: 100%; height: 100%;}
-.viewlogo  label{font-size:1.05rem;margin-right:3.1rem;display:block;
+.viewlogo  label{font-size:1.5rem;margin-right:3.1rem;display:block;
 }
 .viewlogo  text{ position: relative;top:-5px}
 /* 轮播图 */

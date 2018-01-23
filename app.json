@@ -3,7 +3,9 @@
     "page/Index",
     "Template/ArtItem",
     "page/Detail",
-    "page/VideoDetail"
+    "page/VideoDetail",
+    "Chat/ChatList",
+    "Chat/Chat"
   ],
   "window": {
     "navigationBarTitleText": "",
