@@ -86,9 +86,19 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
+    this.data.page = 1;
+    Totalpage = 10;
+    this.data.menuStatic=0;
+    map.remove(this.data.menuStatic);
+    this.getArtListInfo(2, this.data.menuStatic, '正在加载数据...');
     wx.showToast({
-      title: '下啦刷新',
-    })
+      title: '下拉刷新',
+    });
+
+    setTimeout(function () {
+      wx.stopPullDownRefresh();
+     // console.log(1);
+    }, 2000)
   },
 
   /**
@@ -199,20 +209,22 @@ Page({
       }
       return;
     }
-    if (map.get(menuStatic) !=undefined)
+    if (Gettype == 0)
     {
- ChannlePage = (map.get(menuStatic).length / that.data.pageSize) < 1 ? 1 : (map.get(menuStatic).length / that.data.pageSize);
-      this.data.page = ChannlePage+1 ;
-      if (map.get(menuStatic).length > 0) {
-        Totalpage = map.get(menuStatic)[0].PageCount;
+      if (map.get(menuStatic) != undefined) {
+        ChannlePage = (map.get(menuStatic).length / that.data.pageSize) < 1 ? 1 : (map.get(menuStatic).length / that.data.pageSize);
+        this.data.page = ChannlePage + 1;
+        if (map.get(menuStatic).length > 0) {
+          Totalpage = map.get(menuStatic)[0].PageCount;
+        } else {
+          Totalpage = 10;
+        }
       } else {
-        Totalpage = 10;
+        that.data.page = 1;
       }
-    }else
-    {
-      that.data.page=1;
     }
-   // console.log("page:" + that.data.page);
+   
+ //  console.log("page:" + that.data.page);
     var Geturl = app.globalData.AccountInfo.Domain + '/ajax/ArticleHandle.ashx?op=GetAccountArticleList';
     var data = {
       user_Group_ID: app.globalData.AccountInfo.User_Group_ID,
