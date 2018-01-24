@@ -126,7 +126,7 @@ Page({
   },
   getlocation: function () {
     var that = this;
-    console.log(that.shopInfo);
+   // console.log(that.shopInfo);
     wx.getLocation({
       type: 'gcj02',
       success: function (res) {

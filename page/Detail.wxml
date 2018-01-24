@@ -12,7 +12,14 @@
       <view class="wxParse">
           <template is="wxParse" data="{{wxParseData:article.nodes}}"/>
       </view>
-    </view>
+      <!--图集 --> 
+          <block wx:for="{{PicArr}}" wx:key="this" wx:for-item="picItem" >
+          <image class='detailpic_img' mode='widthFix' src='{{picItem.pic}}'></image>
+          <text class='detailpic_des'>{{picItem.txt}}</text> 
+        </block>   
+  
+   
+  </view>
     <!--评论列表-->
     <view class="comments_list">
         <view class='Hot-com'>热门评论</view>

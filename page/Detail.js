@@ -21,7 +21,8 @@ Page({
     page: 1,
     pageSize: 8,
     hasMoreData: true,
-    newsData: []
+    newsData: [],
+    PicArr:[]//图集数据
   },
   getArtCommentList: function (ArtID, message)
   {
@@ -36,7 +37,7 @@ Page({
     }
     newsDataList.requestLoading(Geturl, data, message, function (res) {
       //  console.log(data)
-      console.log(res);
+     // console.log(res);
       var contentlistTem = that.data.newsData
       if (res.errorCode == 200) {
         if (that.data.page == 1) {
@@ -74,21 +75,33 @@ getArtInfo:function(ArtID,message){
     ID: ArtID
   }
   newsDataList.requestLoading(Geturl, data, message, function (res) {
-    //  console.log(data)
-     //console.log(res);
-
+    
      var headdata={
        headimgurl: res.data[0].headimgurl,
        Name: res.data[0].Name
      }
-     
+     console.log(res);
     if (res.errorCode == 200) {
+      var PicList=[];
+      if (res.data[0].int_type==7)//图集
+      {
+        var contentlist = res.data[0].PicArr.split('|');
+        var contentTxt = res.data[0].PicArr_Text.split('|');
+        for (var obj = contentlist.length, i = 0; i < obj; i++) {
+          var picitem={
+            pic: contentlist[i],
+            txt: contentTxt[i]
+          };
+          PicList.push(picitem);
+         }
+      }
+      console.log(PicList);
         that.setData({
           Title: res.data[0].Title,
           int_hist: app.GetCount(res.data[0].int_hist),
           int_Comments: (res.data[0].int_Comments == 0 ? '' : res.data[0].int_Comments) ,
            Description : WxParse.wxParse('article', 'html', res.data[0].Description, that, 5),
-           
+           PicArr: PicList,
            pubDate : res.data[0].pubDate,
            headerList: headdata
         })
