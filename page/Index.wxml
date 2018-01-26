@@ -60,6 +60,7 @@
  <text hidden="">TA的商城</text> 
  <text>TA的服务</text>
  <text>TA的优惠</text> 
+ <button open-type='launchApp' app-parameter='QQ41F2D7B0' binderror="launchAppError"></button>
 </view>
 <!--店铺按钮end-->
 

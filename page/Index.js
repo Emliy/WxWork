@@ -35,6 +35,10 @@ Page({
 
 
   },
+  launchAppError:function(e)
+  {
+    console.log(e.detail.errMsg);
+  },
   detail: function (event) {
     redirectTo.redirectTo_deTail(event);
   },

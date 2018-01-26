@@ -24,6 +24,25 @@ Page({
     newsData: [],
     PicArr:[]//图集数据
   },
+  //图片点击事件
+  wxParseImg:function (e) {
+   
+    var that = this;
+    var nowImgUrl = e.target.dataset.src;
+    var contentlist = that.data.PicArr;
+    var imageUrls=[];
+    for (var obj = contentlist.length, i = 0; i < obj; i++) {
+     
+      imageUrls.push(contentlist[i].pic);
+     
+    }
+ 
+      wx.previewImage({
+        current: nowImgUrl, // 当前显示图片的http链接
+        urls: imageUrls // 需要预览的图片http链接列表
+      })
+    
+},
   getArtCommentList: function (ArtID, message)
   {
     var that = this,
@@ -95,7 +114,7 @@ getArtInfo:function(ArtID,message){
           PicList.push(picitem);
          }
       }
-      console.log(PicList);
+    //  console.log(PicList);
         that.setData({
           Title: res.data[0].Title,
           int_hist: app.GetCount(res.data[0].int_hist),

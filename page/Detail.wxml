@@ -14,7 +14,9 @@
       </view>
       <!--图集 --> 
           <block wx:for="{{PicArr}}" wx:key="this" wx:for-item="picItem" >
-          <image class='detailpic_img' mode='widthFix' src='{{picItem.pic}}'></image>
+           <image class='detailpic_img' data-src="{{picItem.pic}}" mode='widthFix' bindtap="wxParseImg" src='{{picItem.pic}}'></image> 
+
+
           <text class='detailpic_des'>{{picItem.txt}}</text> 
         </block>   
   
